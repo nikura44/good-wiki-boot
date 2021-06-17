@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.nicolas.mapper.BlogMapper">
+    <insert id="insertNewBlog" parameterType="org.nicolas.pojo.Blog">
+        insert into blog (title,username,pageinfo,description) values (#{title},#{username},#{pageInfo},#{description})
+    </insert>
+    <select id="showWikiList" resultType="org.nicolas.pojo.Blog">
+        select * from blog order by id desc
+    </select>
+</mapper>
