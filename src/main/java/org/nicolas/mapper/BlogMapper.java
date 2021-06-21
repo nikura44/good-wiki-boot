@@ -9,4 +9,5 @@ import java.util.List;
 public interface BlogMapper {
     Integer insertNewBlog(Blog blog);
     List showWikiList();
+    Integer updateBlog(Blog blog);
 }

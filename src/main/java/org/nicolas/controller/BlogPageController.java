@@ -11,16 +11,20 @@ import java.util.List;
 @CrossOrigin
 public class BlogPageController {
 
-    private final BlogService blogService;
 
+
+    private final BlogService blogService;
 
     public BlogPageController(BlogService blogService) {
         this.blogService = blogService;
     }
 
+
+
     @PostMapping("/insertBlog")
     public Message insertBlog(@RequestBody Blog blog){
         Message message = new Message();
+
         Integer count = blogService.insertBlog(blog);
 
         if (count == 1) {
@@ -32,8 +36,22 @@ public class BlogPageController {
         return message;
     }
 
+
     @GetMapping("/showWikiList")
     public List showWikiList(){
         return blogService.showWikiList();
+    }
+
+    @PostMapping("/updateBlog")
+    public Message updateBlog(@RequestBody Blog blog){
+        Message message = new Message();
+        int count = blogService.updateBlog(blog);
+        if (count == 1) {
+            message.setOk(true);
+            message.setResult("更新成功");
+            return message;
+        }
+        message.setOk(false);
+        return message;
     }
 }

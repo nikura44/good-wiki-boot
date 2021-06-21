@@ -19,4 +19,8 @@ public class BlogService {
     public List showWikiList(){
         return blogMapper.showWikiList();
     }
+
+    public Integer updateBlog(Blog blog){
+        return blogMapper.updateBlog(blog);
+    }
 }

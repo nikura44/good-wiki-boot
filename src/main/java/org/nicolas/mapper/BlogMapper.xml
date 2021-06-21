@@ -9,4 +9,8 @@
     <select id="showWikiList" resultType="org.nicolas.pojo.Blog">
         select * from blog order by id desc
     </select>
+    <update id="updateBlog" parameterType="org.nicolas.pojo.Blog">
+        update blog set title = #{title} , username = #{username} , pageinfo = #{pageInfo} ,description = #{description}
+        where id = #{id}
+    </update>
 </mapper>

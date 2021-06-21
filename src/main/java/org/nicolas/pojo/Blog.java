@@ -1,10 +1,19 @@
 package org.nicolas.pojo;
 
 public class Blog {
+    private Integer id;
     private String title;
     private String pageInfo;
     private String username;
     private String description;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;
