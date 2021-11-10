@@ -1,6 +1,7 @@
 package org.nicolas.controller;
 
 import org.nicolas.pojo.Blog;
+import org.nicolas.pojo.BlogList;
 import org.nicolas.pojo.Message;
 import org.nicolas.service.BlogService;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+//@RequestMapping("/Blog")
 public class BlogPageController {
 
 
@@ -21,37 +23,23 @@ public class BlogPageController {
 
 
 
-    @PostMapping("/insertBlog")
-    public Message insertBlog(@RequestBody Blog blog){
-        Message message = new Message();
+//    @PostMapping("/insertBlog")
+//    public Message insertBlog(@RequestBody Blog blog){
+//        Message message = new Message();
+//
+//        Integer count = blogService.insertBlog(blog);
+//
+//        if (count == 1) {
+//            message.setOk(true);
+//            message.setResult("success");
+//            return message;
+//        }
+//
+//        return message;
+//    }
 
-        Integer count = blogService.insertBlog(blog);
-
-        if (count == 1) {
-            message.setOk(true);
-            message.setResult("success");
-            return message;
-        }
-
-        return message;
-    }
-
-
-    @GetMapping("/showWikiList")
-    public List showWikiList(){
-        return blogService.showWikiList();
-    }
-
-    @PostMapping("/updateBlog")
-    public Message updateBlog(@RequestBody Blog blog){
-        Message message = new Message();
-        int count = blogService.updateBlog(blog);
-        if (count == 1) {
-            message.setOk(true);
-            message.setResult("更新成功");
-            return message;
-        }
-        message.setOk(false);
-        return message;
+    @GetMapping("/getBlogList")
+    public List<BlogList> getBlogList(){
+        return blogService.getBlogList();
     }
 }
