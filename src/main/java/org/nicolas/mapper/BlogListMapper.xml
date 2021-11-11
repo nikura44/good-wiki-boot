@@ -15,9 +15,10 @@
         <result column="status" property="status"/>
         <result column="views" property="views"/>
         <result column="comment_time" property="commentTime"/>
+        <result column="classification" property="classification"/>
     </resultMap>
 
     <select id="getBlogList" resultMap="BaseResultMap">
-        select id,title,author,create_time,update_time,status,views,comment_time from blog_list order by id desc
+        select id,title,author,create_time,update_time,status,views,comment_time,classification from blog_list order by id desc
     </select>
 </mapper>

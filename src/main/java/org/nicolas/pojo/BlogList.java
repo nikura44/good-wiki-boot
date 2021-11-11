@@ -6,11 +6,12 @@ public class BlogList {
     private Integer id;
     private String title;
     private String author;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
     private Integer views;
     private Status status;
     private Integer commentTime;
+    private String classification;
 
     public Integer getId() {
         return id;
@@ -36,19 +37,19 @@ public class BlogList {
         this.author = author;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -74,5 +75,13 @@ public class BlogList {
 
     public void setCommentTime(Integer commentTime) {
         this.commentTime = commentTime;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 }

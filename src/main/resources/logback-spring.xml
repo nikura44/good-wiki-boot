@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>obs-upload</contextName>
+    <!--定义日志的根目录-->
+    <property name="LOG_HOME" value="./log" />
+    <!--定义日志的格式-->
+    <property name="ENCODER_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss,SSS}|%msg%n"/>
+
+    <!-- 控制台日志：输出全部日志到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${ENCODER_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--输出到文件info级别-->
+    <appender name="INFO_FILE_DIR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <File>${LOG_HOME}/obsUpload.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/obsUpload.%i.log</FileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>9</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>100MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>${ENCODER_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+
+    <logger name="com.boc.server.GetTest" additivity="true">
+        <level value="INFO"/>
+        <appender-ref ref="INFO_FILE_DIR"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

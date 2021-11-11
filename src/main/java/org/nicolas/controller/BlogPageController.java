@@ -1,8 +1,7 @@
 package org.nicolas.controller;
 
-import org.nicolas.pojo.Blog;
+import org.nicolas.entry.Response;
 import org.nicolas.pojo.BlogList;
-import org.nicolas.pojo.Message;
 import org.nicolas.service.BlogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,12 @@ public class BlogPageController {
 //    }
 
     @GetMapping("/getBlogList")
-    public List<BlogList> getBlogList(){
+    public List<BlogList> getBlogList() {
         return blogService.getBlogList();
+    }
+
+    @PostMapping("/insertBlog")
+    public Response insertBlog(){
+
     }
 }
