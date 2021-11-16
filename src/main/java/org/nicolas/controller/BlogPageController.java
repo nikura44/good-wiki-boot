@@ -1,8 +1,11 @@
 package org.nicolas.controller;
 
-import org.nicolas.entry.Response;
+import com.github.pagehelper.PageInfo;
 import org.nicolas.pojo.BlogList;
 import org.nicolas.service.BlogService;
+import org.nicolas.util.BaseQuery;
+import org.nicolas.util.Request;
+import org.nicolas.util.Response;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,13 +40,18 @@ public class BlogPageController {
 //        return message;
 //    }
 
-    @GetMapping("/getBlogList")
-    public List<BlogList> getBlogList() {
-        return blogService.getBlogList();
+//    @GetMapping("/getBlogList")
+//    public List<BlogList> getBlogList(BaseQuery baseQueryRequest) {
+//        return blogService.getBlogListUltimate(baseQueryRequest);
+//    }
+
+    @PostMapping("/getBlogList")
+    public Response getBlogListUltimate(@RequestBody BaseQuery baseQueryRequest) {
+        return blogService.getBlogListUltimate(baseQueryRequest);
     }
 
-    @PostMapping("/insertBlog")
-    public Response insertBlog(){
-
-    }
+//    @PostMapping("/insertBlog")
+//    public Response insertBlog(){
+//
+//    }
 }

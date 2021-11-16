@@ -1,8 +1,10 @@
 package org.nicolas.pojo;
 
+import org.nicolas.util.BaseQuery;
+
 import java.util.Date;
 
-public class BlogList {
+public class BlogList extends BaseQuery {
     private Integer id;
     private String title;
     private String author;
