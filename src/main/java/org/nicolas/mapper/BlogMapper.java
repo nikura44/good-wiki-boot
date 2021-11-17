@@ -7,7 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface BlogMapper {
-    Integer insertNewBlog(Blog blog);
-    List showWikiList();
-    Integer updateBlog(Blog blog);
+    Blog getBlogContent(Integer blogId);
 }

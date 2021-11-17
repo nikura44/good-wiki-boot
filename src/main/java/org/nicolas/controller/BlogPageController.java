@@ -50,6 +50,12 @@ public class BlogPageController {
         return blogService.getBlogListUltimate(baseQueryRequest);
     }
 
+    @PostMapping("/getBlogContent")
+    public Response getBlogContent(@RequestBody Request request) {
+        Integer blogId = request.getReqInt();
+        return blogService.getBlogContent(blogId);
+    }
+
 //    @PostMapping("/insertBlog")
 //    public Response insertBlog(){
 //

@@ -6,6 +6,15 @@ public class Request<T> implements Serializable {
 
     private T reqBody;
     private String reqMsgAuth;
+    private Integer reqInt;
+
+    public Integer getReqInt() {
+        return reqInt;
+    }
+
+    public void setReqInt(Integer reqInt) {
+        this.reqInt = reqInt;
+    }
 
     public T getReqBody() {
         return reqBody;

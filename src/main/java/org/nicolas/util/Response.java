@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Response <T> implements Serializable {
     private String respMsgAuth;
     private T respBody;
+    private Long respInt;
 
     public Response() {
 
@@ -28,5 +29,13 @@ public class Response <T> implements Serializable {
 
     public void setRespBody(T respBody) {
         this.respBody = respBody;
+    }
+
+    public Long getRespInt() {
+        return respInt;
+    }
+
+    public void setRespInt(Long respInt) {
+        this.respInt = respInt;
     }
 }

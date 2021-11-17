@@ -3,14 +3,40 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.nicolas.mapper.BlogMapper">
+    <resultMap type="org.nicolas.pojo.Blog" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+        <result column="blog_id" property="blogId"/>
+        <result column="title" property="title"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="author" property="author"/>
+        <result column="views" property="views"/>
+        <result column="comment_time" property="commentTime"/>
+        <result column="content" property="content"/>
+    </resultMap>
+    <select id="getBlogContent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select blog_id,title, create_time, update_time, author, views, comment_time, content
+        from blog
+        where blog_id = #{blogId}
+    </select>
     <insert id="insertNewBlog" parameterType="org.nicolas.pojo.Blog">
-        insert into blog (title,username,pageinfo,description) values (#{title},#{username},#{pageInfo},#{description})
+        insert into blog (title, username, pageinfo, description)
+        values (#{title}, #{username}, #{pageInfo}, #{description})
     </insert>
     <select id="showWikiList" resultType="org.nicolas.pojo.Blog">
-        select * from blog order by id desc
+        select *
+        from blog
+        order by id desc
     </select>
     <update id="updateBlog" parameterType="org.nicolas.pojo.Blog">
-        update blog set title = #{title} , username = #{username} , pageinfo = #{pageInfo} ,description = #{description}
+        update blog
+        set title       = #{title},
+            username    = #{username},
+            pageinfo    = #{pageInfo},
+            description = #{description}
         where id = #{id}
     </update>
 </mapper>

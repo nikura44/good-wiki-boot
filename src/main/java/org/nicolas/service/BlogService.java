@@ -4,14 +4,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.nicolas.mapper.BlogListMapper;
+import org.nicolas.mapper.BlogMapper;
 import org.nicolas.pojo.BlogList;
 import org.nicolas.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,9 +18,11 @@ public class BlogService {
     private final Logger logger = LoggerFactory.getLogger(BlogService.class);
 
     private final BlogListMapper blogListMapper;
+    private final BlogMapper blogMapper;
 
-    public BlogService(BlogListMapper blogListMapper) {
+    public BlogService(BlogListMapper blogListMapper, BlogMapper blogMapper) {
         this.blogListMapper = blogListMapper;
+        this.blogMapper = blogMapper;
     }
 
 
@@ -33,6 +34,13 @@ public class BlogService {
         logger.info("request : " + pageResult.getTotal());
         Response response = new Response();
         response.setRespBody(lists);
+        response.setRespInt(pageResult.getTotal());
+        return response;
+    }
+
+    public Response getBlogContent(Integer blogId){
+        Response response = new Response();
+        response.setRespBody(blogMapper.getBlogContent(blogId));
         return response;
     }
 
