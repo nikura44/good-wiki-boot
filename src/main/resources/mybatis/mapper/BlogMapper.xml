@@ -22,21 +22,20 @@
         from blog
         where blog_id = #{blogId}
     </select>
+    <update id="blogViewsAdd" parameterType="java.lang.Integer">
+        update blog
+        set views = #{views}
+        where blog_id = #{blogId}
+    </update>
     <insert id="insertNewBlog" parameterType="org.nicolas.pojo.Blog">
-        insert into blog (title, username, pageinfo, description)
-        values (#{title}, #{username}, #{pageInfo}, #{description})
+        insert into blog (title, create_time, update_time, author, views, comment_time, content)
+        values (#{title}, #{createTime}, #{updateTime}, #{author},#{views},#{commentTime},#{content})
     </insert>
+
     <select id="showWikiList" resultType="org.nicolas.pojo.Blog">
         select *
         from blog
         order by id desc
     </select>
-    <update id="updateBlog" parameterType="org.nicolas.pojo.Blog">
-        update blog
-        set title       = #{title},
-            username    = #{username},
-            pageinfo    = #{pageInfo},
-            description = #{description}
-        where id = #{id}
-    </update>
+
 </mapper>

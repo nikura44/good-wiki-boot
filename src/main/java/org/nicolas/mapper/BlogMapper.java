@@ -8,4 +8,8 @@ import java.util.List;
 @Mapper
 public interface BlogMapper {
     Blog getBlogContent(Integer blogId);
+
+    Integer blogViewsAdd(Integer blogId, Integer views);
+
+    Integer insertNewBlog(Blog blog);
 }

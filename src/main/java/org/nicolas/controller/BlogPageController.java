@@ -1,6 +1,7 @@
 package org.nicolas.controller;
 
 import com.github.pagehelper.PageInfo;
+import org.nicolas.pojo.Blog;
 import org.nicolas.pojo.BlogList;
 import org.nicolas.service.BlogService;
 import org.nicolas.util.BaseQuery;
@@ -54,6 +55,11 @@ public class BlogPageController {
     public Response getBlogContent(@RequestBody Request request) {
         Integer blogId = request.getReqInt();
         return blogService.getBlogContent(blogId);
+    }
+
+    @PostMapping("/insertBlog")
+    public Response insertBlog(@RequestBody Blog blog) {
+        return blogService.insertBlog(blog);
     }
 
 //    @PostMapping("/insertBlog")

@@ -1,16 +1,20 @@
 package org.nicolas.pojo;
 
-import java.util.Date;
-
 public class Blog {
     private Integer blogId;
     private String content;
     private String author;
     private Integer views;
-    private Date createTime;
-    private Date updateTime;
+    private String createTime;
+    private String updateTime;
     private Integer commentTime;
     private String title;
+
+    public Blog(String content, String author, String title) {
+        this.content = content;
+        this.author = author;
+        this.title = title;
+    }
 
     public Integer getBlogId() {
         return blogId;
@@ -44,19 +48,19 @@ public class Blog {
         this.views = views;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

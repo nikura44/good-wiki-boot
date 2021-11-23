@@ -21,4 +21,13 @@
     <select id="getBlogList" resultMap="BaseResultMap">
         select id,title,author,create_time,update_time,status,views,comment_time,classification from blog_list order by id desc
     </select>
+    <update id="blogViewsAddList" parameterType="java.lang.Integer">
+        update blog_list
+        set views = #{views}
+        where id = #{blogId}
+    </update>
+    <insert id="insertIntoBlogList" parameterType="org.nicolas.pojo.BlogList">
+        insert into blog_list (title,author,create_time,update_time,status,views,comment_time,classification)
+        values (#{title}, #{author}, #{createTime}, #{updateTime},#{status},#{views},#{commentTime},#{classification})
+    </insert>
 </mapper>

@@ -9,5 +9,7 @@ import java.util.List;
 public interface BlogListMapper {
     List<BlogList> getBlogList();
 
+    Integer blogViewsAddList(Integer blogId, Integer views);
 
+    Integer insertIntoBlogList(BlogList blogList);
 }
