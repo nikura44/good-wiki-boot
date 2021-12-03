@@ -1,6 +1,5 @@
 package org.nicolas.service;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.nicolas.mapper.BlogListMapper;
@@ -17,6 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author zorth
+ */
 @Service
 public class BlogService {
     private final Logger logger = LoggerFactory.getLogger(BlogService.class);
@@ -30,20 +32,20 @@ public class BlogService {
     }
 
 
-    public Response getBlogListUltimate(BaseQuery request) {
+    public Response<List<BlogList>> getBlogListUltimate(BaseQuery request) {
         logger.info("request : " + request.getPageNum());
-        Page page = PageHelper.startPage(request.getPageNum(), request.getPageSize());
+        PageHelper.startPage(request.getPageNum(), request.getPageSize());
         List<BlogList> lists = blogListMapper.getBlogList();
         PageInfo pageResult = new PageInfo(lists);
         logger.info("request : " + pageResult.getTotal());
-        Response response = new Response();
+        Response<List<BlogList>> response = new Response<List<BlogList>>();
         response.setRespBody(lists);
         response.setRespInt(pageResult.getTotal());
         return response;
     }
 
-    public Response getBlogContent(Integer blogId) {
-        Response response = new Response();
+    public Response<Blog> getBlogContent(Integer blogId) {
+        Response<Blog> response = new Response<>();
         //查询成功后，需要增加访问量
         Blog blog = blogMapper.getBlogContent(blogId);
         Integer views = blog.getViews() + 1;
@@ -57,7 +59,8 @@ public class BlogService {
     public Response insertBlog(Blog blog) {
         Response response = new Response();
         BlogList blogList = new BlogList();
-        Date date = new Date();// 获取当前时间
+        // 获取当前时间
+        Date date = new Date();
         String strDateFormat = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
         String time = sdf.format(date);

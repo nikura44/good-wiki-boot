@@ -1,19 +1,17 @@
 package org.nicolas.controller;
 
-import com.github.pagehelper.PageInfo;
 import org.nicolas.pojo.Blog;
-import org.nicolas.pojo.BlogList;
 import org.nicolas.service.BlogService;
 import org.nicolas.util.BaseQuery;
 import org.nicolas.util.Request;
 import org.nicolas.util.Response;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+/**
+ * @author zorth
+ */
 @RestController
 @CrossOrigin
-//@RequestMapping("/Blog")
 public class BlogPageController {
 
 
@@ -23,28 +21,6 @@ public class BlogPageController {
     public BlogPageController(BlogService blogService) {
         this.blogService = blogService;
     }
-
-
-
-//    @PostMapping("/insertBlog")
-//    public Message insertBlog(@RequestBody Blog blog){
-//        Message message = new Message();
-//
-//        Integer count = blogService.insertBlog(blog);
-//
-//        if (count == 1) {
-//            message.setOk(true);
-//            message.setResult("success");
-//            return message;
-//        }
-//
-//        return message;
-//    }
-
-//    @GetMapping("/getBlogList")
-//    public List<BlogList> getBlogList(BaseQuery baseQueryRequest) {
-//        return blogService.getBlogListUltimate(baseQueryRequest);
-//    }
 
     @PostMapping("/getBlogList")
     public Response getBlogListUltimate(@RequestBody BaseQuery baseQueryRequest) {
@@ -62,8 +38,4 @@ public class BlogPageController {
         return blogService.insertBlog(blog);
     }
 
-//    @PostMapping("/insertBlog")
-//    public Response insertBlog(){
-//
-//    }
 }
