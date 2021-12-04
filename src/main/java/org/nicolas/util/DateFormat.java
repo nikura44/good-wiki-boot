@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author nicolas
+ */
 public class DateFormat {
     private static final String YYYY = "yyyy";
 
@@ -17,12 +20,12 @@ public class DateFormat {
 
     private static final String MM_DD_HH_MM = "MM-dd HH:mm";
 
-    private String SimpleDateFormat(String format, Date date){
+    private String simpleDateFormat(String format, Date date){
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
 
-    public String YMDDateFormat(Date date) {
+    public String ymddateformat(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
         return sdf.format(date);
     }
