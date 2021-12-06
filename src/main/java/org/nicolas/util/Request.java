@@ -2,6 +2,9 @@ package org.nicolas.util;
 
 import java.io.Serializable;
 
+/**
+ * @author nicolas
+ */
 public class Request<T> implements Serializable {
 
     private T reqBody;

@@ -1,5 +1,8 @@
 package org.nicolas.util;
 
+/**
+ * @author nicolas
+ */
 public class FormatResult<T>{
 
     private String code;

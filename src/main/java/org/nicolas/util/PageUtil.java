@@ -5,6 +5,9 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+/**
+ * @author nicolas
+ */
 public class PageUtil<T> {
 
     public PageInfo<T> listToPage(BaseQuery pageInfo, List<T> list) {
