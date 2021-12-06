@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,26 +54,19 @@ public class BlogService {
         return response;
     }
 
+    /**
+     * insert blog and blogList into mysql database
+     * @param blog
+     * @return Response
+     */
     public Response insertBlog(Blog blog) {
         Response response = new Response();
-        BlogList blogList = new BlogList();
-        // 获取当前时间
-        Date date = new Date();
-        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
-        String time = sdf.format(date);
+        String time = DateFormat.getCurrentTime();
         blog.setCreateTime(time);
         blog.setUpdateTime(time);
         blog.setViews(0);
         blog.setCommentTime(0);
-        blogList.setAuthor(blog.getAuthor());
-        blogList.setUpdateTime(time);
-        blogList.setCreateTime(time);
-        blogList.setCommentTime(0);
-        blogList.setViews(0);
-        blogList.setClassification("CSS");
-        blogList.setStatus(Status.active);
-        blogList.setTitle(blog.getTitle());
+        BlogList blogList = new BlogList(blog.getTitle(), blog.getAuthor(), time, time, 0, Status.active, 0, "CSS");
         blogMapper.insertNewBlog(blog);
         blogListMapper.insertIntoBlogList(blogList);
         return response;

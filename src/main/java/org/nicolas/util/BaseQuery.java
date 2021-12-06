@@ -2,6 +2,9 @@ package org.nicolas.util;
 
 import java.io.Serializable;
 
+/**
+ * @author zorth
+ */
 public class
 BaseQuery implements Serializable {
     //当前页

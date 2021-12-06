@@ -2,6 +2,9 @@ package org.nicolas.util;
 
 import java.io.Serializable;
 
+/**
+ * @author zorth
+ */
 public class Response <T> implements Serializable {
     private String respMsgAuth;
     private T respBody;

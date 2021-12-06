@@ -4,6 +4,9 @@ import org.nicolas.util.BaseQuery;
 
 import java.util.Date;
 
+/**
+ * @author zorth
+ */
 public class BlogList extends BaseQuery {
     private Integer id;
     private String title;
@@ -14,6 +17,20 @@ public class BlogList extends BaseQuery {
     private Status status;
     private Integer commentTime;
     private String classification;
+
+    public BlogList() {
+    }
+
+    public BlogList(String title, String author, String createTime, String updateTime, Integer views, Status status, Integer commentTime, String classification) {
+        this.title = title;
+        this.author = author;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.views = views;
+        this.status = status;
+        this.commentTime = commentTime;
+        this.classification = classification;
+    }
 
     public Integer getId() {
         return id;

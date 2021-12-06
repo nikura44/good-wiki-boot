@@ -10,9 +10,14 @@ public class Blog {
     private Integer commentTime;
     private String title;
 
-    public Blog(String content, String author, String title) {
+    public Blog(Integer blogId, String content, String author, Integer views, String createTime, String updateTime, Integer commentTime, String title) {
+        this.blogId = blogId;
         this.content = content;
         this.author = author;
+        this.views = views;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.commentTime = commentTime;
         this.title = title;
     }
 

@@ -4,6 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author zorth
+ */
 public class DateFormat {
     private static final String YYYY = "yyyy";
 
@@ -25,5 +28,18 @@ public class DateFormat {
     public String YMDDateFormat(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
         return sdf.format(date);
+    }
+
+    /**
+     * get formatted current date
+     * @return String current time
+     */
+    public static String getCurrentTime() {
+        // 获取当前时间
+        Date date = new Date();
+        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+        String time = sdf.format(date);
+        return time;
     }
 }
