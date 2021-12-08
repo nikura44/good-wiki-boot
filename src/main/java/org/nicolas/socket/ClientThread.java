@@ -1,5 +1,6 @@
 package org.nicolas.socket;
 
+import org.nicolas.controller.ChatController;
 import org.nicolas.pojo.ChatHall;
 
 import java.io.BufferedReader;
@@ -27,7 +28,10 @@ public class ClientThread extends Thread {
             String line = null;
             //从输入流读取数据
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+
+                synchronized(this){
+                    ChatController.chatHall = ChatController.chatHall + line;
+                }
 
             }
         } catch (IOException e) {

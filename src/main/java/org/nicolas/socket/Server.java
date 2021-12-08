@@ -27,10 +27,10 @@ public class Server {
      */
     public void init() {
         try (
-                // Establish listening ServerSocket
+                // 建立监听ServerSocket
                 ServerSocket ss = new ServerSocket(SERVER_PORT);
         ) {
-            // An infinite loop is used to continuously receive requests from clients
+            // 使用无限循环不断接收来自客户端的请求
             while (true) {
                 Socket socket = ss.accept();
 
