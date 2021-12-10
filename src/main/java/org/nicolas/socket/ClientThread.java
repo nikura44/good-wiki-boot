@@ -2,6 +2,8 @@ package org.nicolas.socket;
 
 import org.nicolas.controller.ChatController;
 import org.nicolas.pojo.ChatHall;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.IOException;
  * @author zorth
  */
 public class ClientThread extends Thread {
+    private final Logger logger = LoggerFactory.getLogger(ClientThread.class);
     /**
      * 该客户端线程负责处理输入流
      */
@@ -30,7 +33,8 @@ public class ClientThread extends Thread {
             while ((line = br.readLine()) != null) {
 
                 synchronized(this){
-                    ChatController.chatHall = ChatController.chatHall + line;
+                    logger.info(line);
+                    ChatController.chatHall.add(line);
                 }
 
             }

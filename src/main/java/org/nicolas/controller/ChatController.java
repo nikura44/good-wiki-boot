@@ -1,19 +1,24 @@
 package org.nicolas.controller;
 
-import org.nicolas.service.BlogService;
+import org.nicolas.pojo.ClientPojo;
 import org.nicolas.service.ChatService;
 import org.nicolas.socket.Server;
 import org.nicolas.thread.ThreadPoolExecutorConfig;
 import org.nicolas.util.Request;
 import org.nicolas.util.Response;
-import org.omg.PortableServer.THREAD_POLICY_ID;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -23,8 +28,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Controller
 @CrossOrigin
 public class ChatController {
+    private final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
-    public static String chatHall;
+    public static List<String> chatHall;
+    public static List<ClientPojo> pojoList;
     public static ThreadPoolExecutor threadPool;
 
     private final ChatService chatService;
@@ -37,33 +44,43 @@ public class ChatController {
 
     @PostConstruct
     public void chatThreadStart() {
+        pojoList = new ArrayList<>();
+        chatHall = new ArrayList<>();
         ThreadPoolExecutor threadPool = executorConfig.createThreadPool();
         ChatController.threadPool = threadPool;
         Server server = new Server(threadPool);
         server.init();
-        System.out.println("init success!");
-
-
+        logger.info("Server init success!");
     }
 
     @PostMapping("/getMessage")
-    public Response getMessage(@RequestBody Request request) {
-        Response response = new Response();
-        request.setReqBody(chatHall);
-        return response;
+    @ResponseBody
+    public List<String> getMessage() {
+        for (String line : chatHall) {
+           logger.info(line);
+        }
+        return chatHall;
     }
 
-    @PostMapping("/connect")
-    public Response connect() {
+    @PostMapping("/initConnect")
+    @ResponseBody
+    public Response connect(@RequestBody Request request) {
         Response response = new Response();
-        chatService.Connect("nicolas",ChatController.threadPool);
+        String nickname = request.getReqMsgAuth();
+        ClientPojo pojo = chatService.Connect(nickname, ChatController.threadPool);
+        pojoList.add(pojo);
+        response.setRespMsgAuth(pojo.getNickname());
+        response.setRespBody("success");
         return response;
     }
 
     @PostMapping("/sendMessage")
-    public Response sendMessage() {
+    @ResponseBody
+    public Response sendMessage(@RequestBody Request request) {
         Response response = new Response();
-        chatService.SendMessage("request.getReqMsgAuth()");
+        String nickname = request.getReqMsgAuth();
+        String message = (String) request.getReqBody();
+        chatService.SendMessage(nickname, message);
         return response;
     }
 

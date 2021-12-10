@@ -1,5 +1,6 @@
 package org.nicolas.service;
 
+import org.nicolas.pojo.ClientPojo;
 import org.nicolas.socket.Client;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,12 @@ public class ChatService {
         this.client = client;
     }
 
-    public void SendMessage(String message) {
-        client.sendMessage(message);
+    public void SendMessage(String nickname, String message) {
+        client.sendMessage(nickname,message);
     }
 
-    public void Connect(String nickname, ThreadPoolExecutor globalExecutor) {
-        client.initialize();
-        client.checkNickname(nickname);
-        client.startClientThread(globalExecutor);
+    public ClientPojo Connect(String nickname, ThreadPoolExecutor globalExecutor) {
+        ClientPojo pojo = client.initialize(nickname, globalExecutor);
+        return pojo;
     }
 }

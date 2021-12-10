@@ -14,11 +14,11 @@ public class ThreadPoolExecutorConfig {
     /**
      * 线程池核心线程数量
      */
-    private static final int CORE_POOL_SIZE = 5;
+    private static final int CORE_POOL_SIZE = 4;
     /**
      * 线程池最大容量
      */
-    private static final int MAX_POOL_SIZE = 10;
+    private static final int MAX_POOL_SIZE = 8;
     /**
      * 任务队列
      */
