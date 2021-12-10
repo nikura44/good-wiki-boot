@@ -31,6 +31,6 @@ public class ChatService {
     }
 
     public Boolean Disconnect(ClientPojo pojo) {
-        return client.closeRs(pojo.getPrintStream(), pojo.getBufferedReader(), pojo.getSocket());
+        return client.closeRs(pojo.getPrintStream(), pojo.getBufferedReader(), pojo.getSocket(), pojo);
     }
 }

@@ -12,7 +12,7 @@ public class CrazyitMap<K, V> {
     public Map<K, V> map = Collections.synchronizedMap(new HashMap<>());
 
     /**
-     * Deletes the specified item based on value
+     * 根据值删除指定项
      */
     public synchronized void removeByValue(Object value) {
         for (K key : map.keySet()) {
@@ -24,7 +24,7 @@ public class CrazyitMap<K, V> {
     }
 
     /**
-     * Gets a collection of all values
+     * 获取所有值的集合
      */
     public synchronized Set<V> valueSet() {
         Set<V> result = new HashSet<>();

@@ -49,6 +49,7 @@ public class Client {
      */
     public ClientPojo initialize(String nickname, ThreadPoolExecutor globalExecutor) {
         logger.info("开始执行Client初始化方法...");
+        logger.info("当前线程池状态： " + globalExecutor.getActiveCount());
         try {
             //连接到服务器
             Socket socket = new Socket(SERVER_IP, SERVER_PORT);
@@ -69,9 +70,9 @@ public class Client {
                 logger.info("nickname is checked");
             }
             // 用该Socket输入流启动ClientThread线程
-            globalExecutor.execute(new ClientThread(bufferedReader,nickname));
+            globalExecutor.execute(new ClientThread(bufferedReader, nickname));
             logger.info("Client初始化成功");
-
+            logger.info("当前线程池状态： " + globalExecutor.getActiveCount());
             ClientPojo pojo = new ClientPojo(nickname, socket, bufferedReader, ps, true);
             return pojo;
         } catch (UnknownHostException exception) {
@@ -116,9 +117,10 @@ public class Client {
     /**
      * 关闭输入流输出流
      */
-    public Boolean closeRs(PrintStream ps, BufferedReader bufferedReader, Socket socket) {
+    public Boolean closeRs(PrintStream ps, BufferedReader bufferedReader, Socket socket, ClientPojo pojo) {
         try {
-            System.out.println("关闭链接");
+            logger.info("开始尝试断开链接...");
+            pojo.setStatus(false);
             if (bufferedReader != null) {
                 ps.close();
             }

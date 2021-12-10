@@ -43,13 +43,15 @@ public class ClientThread extends Thread {
             while ((line = br.readLine()) != null && runFlag) {
 
                 synchronized(this){
+
+                    logger.info(line);
+                    ChatController.chatHall.add(line);
+
                     for (ClientPojo pojo : ChatController.pojoList) {
                         if (pojo.getNickname().equals(nickname)) {
                             runFlag = pojo.isStatus();
                         }
                     }
-                    logger.info(line);
-                    ChatController.chatHall.add(line);
                 }
 
             }
