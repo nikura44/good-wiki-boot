@@ -20,11 +20,22 @@ public class ClientPojo {
 
     private PrintStream printStream;
 
-    public ClientPojo(String nickname, Socket socket, BufferedReader bufferedReader, PrintStream printStream) {
+    private boolean status;
+
+    public ClientPojo(String nickname, Socket socket, BufferedReader bufferedReader, PrintStream printStream, boolean status) {
         this.nickname = nickname;
         this.socket = socket;
         this.bufferedReader = bufferedReader;
         this.printStream = printStream;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getNickname() {

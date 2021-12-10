@@ -69,10 +69,10 @@ public class Client {
                 logger.info("nickname is checked");
             }
             // 用该Socket输入流启动ClientThread线程
-            globalExecutor.execute(new ClientThread(bufferedReader));
+            globalExecutor.execute(new ClientThread(bufferedReader,nickname));
             logger.info("Client初始化成功");
 
-            ClientPojo pojo = new ClientPojo(nickname, socket, bufferedReader, ps);
+            ClientPojo pojo = new ClientPojo(nickname, socket, bufferedReader, ps, true);
             return pojo;
         } catch (UnknownHostException exception) {
             logger.error("找不到远程服务器");
@@ -116,7 +116,7 @@ public class Client {
     /**
      * 关闭输入流输出流
      */
-    public void closeRs(PrintStream ps,BufferedReader bufferedReader,Socket socket) {
+    public Boolean closeRs(PrintStream ps, BufferedReader bufferedReader, Socket socket) {
         try {
             System.out.println("关闭链接");
             if (bufferedReader != null) {
@@ -129,11 +129,12 @@ public class Client {
                 socket.close();
             }
             logger.info("delete connect success");
+            return true;
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+        return false;
     }
-
 
 
 }

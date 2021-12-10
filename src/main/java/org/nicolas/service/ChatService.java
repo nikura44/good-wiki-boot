@@ -22,11 +22,15 @@ public class ChatService {
     }
 
     public void SendMessage(String nickname, String message) {
-        client.sendMessage(nickname,message);
+        client.sendMessage(nickname, message);
     }
 
     public ClientPojo Connect(String nickname, ThreadPoolExecutor globalExecutor) {
         ClientPojo pojo = client.initialize(nickname, globalExecutor);
         return pojo;
+    }
+
+    public Boolean Disconnect(ClientPojo pojo) {
+        return client.closeRs(pojo.getPrintStream(), pojo.getBufferedReader(), pojo.getSocket());
     }
 }

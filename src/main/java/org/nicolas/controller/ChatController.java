@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -57,7 +56,7 @@ public class ChatController {
     @ResponseBody
     public List<String> getMessage() {
         for (String line : chatHall) {
-           logger.info(line);
+            logger.info(line);
         }
         return chatHall;
     }
@@ -84,4 +83,22 @@ public class ChatController {
         return response;
     }
 
+    @PostMapping("/disconnect")
+    @ResponseBody
+    public Response disconnect(@RequestBody Request request) {
+        Response response = new Response();
+        String nickname = request.getReqMsgAuth();
+        for (ClientPojo pojo : pojoList) {
+            if (pojo.getNickname().equals(nickname)) {
+                logger.info("开始关闭链接，当前链接数： " + threadPool.getActiveCount());
+                chatService.Disconnect(pojo);
+                int count = threadPool.getActiveCount();
+                logger.info("关闭成功，当前链接数: " + count);
+                response.setRespBody("success");
+                return response;
+            }
+        }
+        logger.error("没有找到该用户的链接，关闭失败，当前链接数为： " + threadPool.getActiveCount());
+        return response;
+    }
 }
