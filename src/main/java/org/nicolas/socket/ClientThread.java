@@ -19,18 +19,12 @@ public class ClientThread extends Thread {
      */
     BufferedReader br = null;
 
-
-
-    /**
-     * 标记线程状态｜状态变化则要关闭线程
-     */
-    Boolean runFlag = true;
     String nickname;
 
     /**
      * 使用一个网络输入流来创建客户端线程
      */
-    public ClientThread(BufferedReader br,String nickname) {
+    public ClientThread(BufferedReader br, String nickname) {
         this.br = br;
         this.nickname = nickname;
     }
@@ -38,32 +32,29 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
+            Thread.currentThread().setName("Client-" + nickname + "-Thread");
             String line = null;
             //从输入流读取数据
-            while ((line = br.readLine()) != null && runFlag) {
-
-                synchronized(this){
-
+            while (true) {
+                if ((line = br.readLine()) != null && ChatController.runFlag.get(nickname)) {
                     logger.info(line);
-                    ChatController.chatHall.add(line);
-
-                    for (ClientPojo pojo : ChatController.pojoList) {
-                        if (pojo.getNickname().equals(nickname)) {
-                            runFlag = pojo.isStatus();
-                        }
+                    synchronized (this) {
+                        logger.info(line);
+                        ChatController.chatHall.add(line);
+                        continue;
                     }
+                } else {
+                    break;
                 }
-
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         } finally {
             try {
                 if (br != null) {
                     br.close();
                 }
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

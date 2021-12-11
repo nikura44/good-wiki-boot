@@ -1,7 +1,9 @@
 package org.nicolas.controller;
 
 import org.nicolas.pojo.ClientPojo;
+import org.nicolas.pojo.ServerPojo;
 import org.nicolas.service.ChatService;
+import org.nicolas.socket.CrazyitMap;
 import org.nicolas.socket.Server;
 import org.nicolas.thread.ThreadPoolExecutorConfig;
 import org.nicolas.util.Request;
@@ -16,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintStream;
+import java.util.*;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -31,7 +33,14 @@ public class ChatController {
 
     public static List<String> chatHall;
     public static List<ClientPojo> pojoList;
+    public static List<ServerPojo> serverPojos;
     public static ThreadPoolExecutor threadPool;
+    public static CrazyitMap<String, PrintStream> clients;
+    /**
+     * 用来标识Server线程的栈
+     */
+    public static Stack<String> requestStack;
+    public static Map<String,Boolean> runFlag;
 
     private final ChatService chatService;
     private final ThreadPoolExecutorConfig executorConfig;
@@ -44,7 +53,12 @@ public class ChatController {
     @PostConstruct
     public void chatThreadStart() {
         pojoList = new ArrayList<>();
+        serverPojos = new ArrayList<>();
         chatHall = new ArrayList<>();
+        //使用一个 Map 对象来保存每个客户名称和对应的输出流之间的关系
+        clients = new CrazyitMap<>();
+        requestStack = new Stack<>();
+        runFlag = new HashMap<>(20);
         ThreadPoolExecutor threadPool = executorConfig.createThreadPool();
         ChatController.threadPool = threadPool;
         Server server = new Server(threadPool);
@@ -58,6 +72,9 @@ public class ChatController {
         for (String line : chatHall) {
             logger.info(line);
         }
+        pojoList.toString();
+        clients.toString();
+        threadPool.toString();
         return chatHall;
     }
 
@@ -66,6 +83,7 @@ public class ChatController {
     public Response connect(@RequestBody Request request) {
         Response response = new Response();
         String nickname = request.getReqMsgAuth();
+        runFlag.put(nickname,true);
         ClientPojo pojo = chatService.Connect(nickname, ChatController.threadPool);
         pojoList.add(pojo);
         response.setRespMsgAuth(pojo.getNickname());
@@ -88,12 +106,12 @@ public class ChatController {
     public Response disconnect(@RequestBody Request request) {
         Response response = new Response();
         String nickname = request.getReqMsgAuth();
+        runFlag.replace(nickname,false);
         for (ClientPojo pojo : pojoList) {
             if (pojo.getNickname().equals(nickname)) {
                 logger.info("开始关闭链接，当前链接数： " + threadPool.getActiveCount());
                 chatService.Disconnect(pojo);
-                int count = threadPool.getActiveCount();
-                logger.info("关闭成功，当前链接数: " + count);
+                logger.info("关闭成功，当前链接数: " + threadPool.getActiveCount());
                 response.setRespBody("success");
                 return response;
             }

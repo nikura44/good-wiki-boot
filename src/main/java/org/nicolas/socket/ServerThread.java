@@ -1,5 +1,8 @@
 package org.nicolas.socket;
 
+import org.nicolas.controller.ChatController;
+import org.nicolas.pojo.ServerPojo;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,24 +27,31 @@ public class ServerThread implements Runnable {
     @Override
     public void run() {
         try {
+            String nickname = ChatController.requestStack.pop();
+            Thread.currentThread().setName("Server-" + nickname + "-Thread");
             //获取该socket对应的输入流
             br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             //获取Socket对应的输出流
             ps = new PrintStream(socket.getOutputStream());
+
+            ServerPojo serverPojo = new ServerPojo(nickname,ps,br,socket,true);
+            ChatController.serverPojos.add(serverPojo);
+
             String line = null;
-            while ((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null && ChatController.runFlag.get(nickname)) {
                 //如果读到的行以USER_ROUND开始，并以其结束
                 //则可以确定读到的是用户登陆的用户名
                 if (line.startsWith(CrazyitProtocol.USER_ROUND) && line.endsWith(CrazyitProtocol.USER_ROUND)) {
                     //得到真实消息
                     String userName = getRelMsg(line);
-                    if (Server.clients.map.containsKey(userName)) {
+                    //判断重复
+                    if (ChatController.clients.map.containsKey(userName)) {
                         System.out.println("重复");
                         ps.println(CrazyitProtocol.NAME_REP);
                     } else {
                         System.out.println("成功");
                         ps.println(CrazyitProtocol.LOGIN_SUCCESS);
-                        Server.clients.put(userName, ps);
+                        ChatController.clients.put(userName, ps);
                     }
                 }
                 //如果读到的行以PRIVATE_ROUND开始，为私聊消息
@@ -50,17 +60,17 @@ public class ServerThread implements Runnable {
                     String user = userAndMsg.split(CrazyitProtocol.SPLIT_SIGN)[0];
                     String msg = userAndMsg.split(CrazyitProtocol.SPLIT_SIGN)[1];
 
-                    Server.clients.map.get(user).println(Server.clients.getKeyByValue(ps) + "悄悄对你说: " + msg);
+                    ChatController.clients.map.get(user).println(ChatController.clients.getKeyByValue(ps) + "悄悄对你说: " + msg);
                 } else {
                     String msg = getRelMsg(line);
-                    for (PrintStream clientPs : Server.clients.valueSet()) {
-                        clientPs.println(Server.clients.getKeyByValue(ps) + "说： " + msg);
+                    for (PrintStream clientPs : ChatController.clients.valueSet()) {
+                        clientPs.println(ChatController.clients.getKeyByValue(ps) + "说： " + msg);
                     }
                 }
             }
         } catch (IOException e) {
-            Server.clients.removeByValue(ps);
-            System.out.println(Server.clients.map.size());
+            ChatController.clients.removeByValue(ps);
+            System.out.println(ChatController.clients.map.size());
             try {
                 if (br != null) {
                     br.close();

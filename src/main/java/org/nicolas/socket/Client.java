@@ -51,6 +51,7 @@ public class Client {
         logger.info("开始执行Client初始化方法...");
         logger.info("当前线程池状态： " + globalExecutor.getActiveCount());
         try {
+            ChatController.requestStack.push(nickname);
             //连接到服务器
             Socket socket = new Socket(SERVER_IP, SERVER_PORT);
             //获取该Socket对应到输入流和输出流
@@ -77,10 +78,16 @@ public class Client {
             return pojo;
         } catch (UnknownHostException exception) {
             logger.error("找不到远程服务器");
+            if (!ChatController.requestStack.isEmpty()) {
+                ChatController.requestStack.pop();
+            }
 //            closeRs();
             //TODO 关闭链接的方法
         } catch (IOException e) {
             logger.error("网络异常");
+            if (!ChatController.requestStack.isEmpty()) {
+                ChatController.requestStack.pop();
+            }
 //            closeRs();
             //TODO 关闭链接的方法
         }
@@ -121,6 +128,7 @@ public class Client {
         try {
             logger.info("开始尝试断开链接...");
             pojo.setStatus(false);
+
             if (bufferedReader != null) {
                 ps.close();
             }
@@ -130,7 +138,9 @@ public class Client {
             if (socket != null) {
                 socket.close();
             }
+            ChatController.clients.map.remove(pojo.getNickname());
             logger.info("delete connect success");
+            ChatController.pojoList.remove(pojo);
             return true;
         } catch (IOException e) {
             logger.error(e.getMessage());
